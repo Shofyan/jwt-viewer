@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Debugger - jwt.io Alternative</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 JWT Debugger</h1>
+            <p>Decode, verify and generate JSON Web Tokens</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" data-tab="decode">Decode</button>
+            <button class="tab-button" data-tab="encode">Encode</button>
+            <button class="tab-button" data-tab="verify">Verify</button>
+        </div>
+
+        <!-- DECODE TAB -->
+        <div id="decode-tab" class="tab-content active">
+            <div class="split-view">
+                <div class="left-panel">
+                    <h3>Encoded JWT</h3>
+                    <textarea id="jwt-input" placeholder="Paste your JWT token here..."></textarea>
+                    <div class="info-text">
+                        <small>💡 The token will be decoded automatically as you type</small>
+                    </div>
+                </div>
+
+                <div class="right-panel">
+                    <h3>Decoded JWT</h3>
+                    
+                    <div class="decoded-section">
+                        <div class="section-header header-color">
+                            <strong>HEADER:</strong> <span class="algorithm-badge" id="header-alg"></span>
+                        </div>
+                        <pre id="header-output" class="json-output"></pre>
+                    </div>
+
+                    <div class="decoded-section">
+                        <div class="section-header payload-color">
+                            <strong>PAYLOAD:</strong> <span class="status-badge" id="exp-status"></span>
+                        </div>
+                        <pre id="payload-output" class="json-output"></pre>
+                        
+                        <div id="claim-info" class="claim-info"></div>
+                    </div>
+
+                    <div class="decoded-section">
+                        <div class="section-header signature-color">
+                            <strong>SIGNATURE:</strong>
+                        </div>
+                        <pre id="signature-output" class="json-output"></pre>
+                    </div>
+
+                    <div id="decode-error" class="error-message" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ENCODE TAB -->
+        <div id="encode-tab" class="tab-content">
+            <div class="split-view">
+                <div class="left-panel">
+                    <h3>JWT Configuration</h3>
+                    
+                    <div class="form-group">
+                        <label>Algorithm:</label>
+                        <select id="encode-algorithm">
+                            <option value="HS256">HS256</option>
+                            <option value="HS384">HS384</option>
+                            <option value="HS512">HS512</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Header (JSON):</label>
+                        <textarea id="encode-header" rows="4">{
+  "typ": "JWT"
+}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Payload (JSON):</label>
+                        <textarea id="encode-payload" rows="10">{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "iat": 1516239022
+}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Secret:</label>
+                        <input type="password" id="encode-secret" placeholder="your-256-bit-secret" value="your-256-bit-secret">
+                    </div>
+
+                    <button id="encode-button" class="btn-primary">Generate JWT</button>
+                </div>
+
+                <div class="right-panel">
+                    <h3>Generated JWT</h3>
+                    <div class="result-container">
+                        <textarea id="encode-result" readonly placeholder="Your generated JWT will appear here..."></textarea>
+                        <button id="copy-encode-button" class="btn-secondary" style="display: none;">📋 Copy to Clipboard</button>
+                    </div>
+                    <div id="encode-error" class="error-message" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VERIFY TAB -->
+        <div id="verify-tab" class="tab-content">
+            <div class="split-view">
+                <div class="left-panel">
+                    <h3>Verify JWT Signature</h3>
+                    
+                    <div class="form-group">
+                        <label>JWT Token:</label>
+                        <textarea id="verify-token" rows="6" placeholder="Paste JWT token to verify..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Secret:</label>
+                        <input type="password" id="verify-secret" placeholder="your-256-bit-secret">
+                    </div>
+
+                    <button id="verify-button" class="btn-primary">Verify Signature</button>
+                </div>
+
+                <div class="right-panel">
+                    <h3>Verification Result</h3>
+                    <div id="verify-result" class="verification-result"></div>
+                    <div id="verify-claims" class="decoded-section" style="display: none;">
+                        <div class="section-header payload-color">
+                            <strong>VERIFIED CLAIMS:</strong>
+                        </div>
+                        <pre id="verify-claims-output" class="json-output"></pre>
+                        <div id="verify-claim-info" class="claim-info"></div>
+                    </div>
+                    <div id="verify-error" class="error-message" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>⚠️ <strong>Security Notice:</strong> Tokens and secrets are processed locally and never stored or logged.</p>
+            <p>Built with Go • Inspired by jwt.io</p>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
