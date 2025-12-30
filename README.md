@@ -40,6 +40,14 @@ A production-ready JWT (JSON Web Token) debugger and validator web application b
   - Malformed tokens
 - **Claims Display**: Shows verified claims after successful validation
 
+## 📸 Screenshots
+
+### JWT Decoder View
+![JWT Viewer - Decode](doc/jwt-viewer.png)
+
+### JWT Encoder View
+![JWT Viewer - Encode](doc/jwt-viewer-encode.png)
+
 ## 🏗️ Architecture
 
 Clean architecture with separated concerns:
